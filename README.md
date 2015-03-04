@@ -27,4 +27,6 @@ Enonces
 - tp 3
 - tp 4
 - tp 5
-  * reseau de neurones
+  * Adaboost
+- tp 6
+  * Reseau de neurones
