@@ -20,12 +20,14 @@ Utilisation d'un launcher unique.
 Enonces
 =======
 - tp 1
-  * prediction de trajectoire
-  * regression lineaire
-  
+  * Prediction de trajectoire
+  * Regression lineaire  
 - tp 2
+  * Descente de gradient Batch et Stochastique
 - tp 3
+  * Enrichissement de l'espace d'hypothese avec des polynomes
 - tp 4
+  * Regression logistique
 - tp 5
   * Adaboost
 - tp 6
