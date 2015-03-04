@@ -9,6 +9,10 @@ Auteurs
 
 How to
 ======
+Chaque tp est séparé dans un fichier different.
+Chaque tp posséde une fonction main.
+Utilisation d'un launcher unique.
+
 <code> python2.7 faa.py [numero tp] </code>
 
 [numero tp]={1..5}
@@ -23,3 +27,4 @@ Enonces
 - tp 3
 - tp 4
 - tp 5
+  * reseau de neurones
