@@ -27,31 +27,31 @@ def theta():
 def fTheta():
 
    global x
-   global theta
+   global th
 
    print("Calcul de  f(theta) par la formule : XTranspote Theta")
-   return np.dot(x.T, theta)
+   return np.dot(x.T, th)
 
 
 #calcul de l'erreur quadratique moyenne
-def erreurQuadra():
+def erreurQuadratique():
    global p
    global N
    global x
+   global th
 
-   alpha = p - (np.dot(x.T, theta))
+   alpha = p - (np.dot(x.T, th))
    print "Calcul de l'erreur quadratique par la formule : (1/N)( (Y-(XT*Theta))T )*(Y-(XT*Theta)) )\n"
    return (1.0 / N) * np.dot(alpha.T, alpha)
 
 
 #trace de graph
-def trace(ftheta):
+def trace(fth):
    global t
    global p
-   global theta
 
    plt.plot(t,p, '*')
-   plt.plot(t, fTheta)
+   plt.plot(t, fth)
    plt.xlabel("temps")
    plt.ylabel("position")
    plt.title("Tp1: Prediction de trajectoires par regression lineaire")
@@ -59,15 +59,18 @@ def trace(ftheta):
    plt.show()
    
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
+def main():
    global t
    global p
    global x
+   global th
+   global fth
    
    print "Deroulement des calculs"
-   theta= theta()
-   fTheta= fTheta()
-   erreurQuadra = erreurQuadra()
+   th= theta()
+   fTh= fTheta()
+   erreurQuadra = erreurQuadratique()
 
-   print "theta {0} \nftheta {1} \nerreurQuadra {2}".format(theta, fTheta, erreurQuadra)
-   trace(fTheta)
+   print "theta {0} \nftheta {1} \nerreurQuadra {2}".format(th, fTh, erreurQuadra)
+   trace(fTh)

@@ -17,7 +17,7 @@ if __name__ == '__main__':
     if (len(sys.argv)<2):
         usage()
     else:
-        tp ={#1 : tp1.main,
+        tp ={1 : tp1.main,
              #2 : tp2.main,
              #3 : tp3.main,
              #4 : tp4.main,
