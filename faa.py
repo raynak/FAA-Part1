@@ -19,8 +19,8 @@ if __name__ == '__main__':
         usage()
     else:
         tp ={1 : tp1.main,
-             #2 : tp2.main,
-             #3 : tp3.main,
+             2 : tp2.main,
+             3 : tp3.main,
              #4 : tp4.main,
              5 : tp5.main,
              6 : tp6.main,
