@@ -27,33 +27,32 @@ def init():
     target = np.hstack((np.ones((1,Nf/2)),np.ones((1,Nh/2))*0)).T
 
 
-def fTheta(theta):
-    global data
+def fTheta(theta, data):
+    print data.shape
+    print theta.T
     return np.dot(theta.T, data)
     # return np.dot(data.T, theta)
 
 def sigmoide(t, A, b):
     return (1.0/(1.0+np.exp(-((A*t)+b))))
 
-def sigmoideF(theta):
-    print fTheta(theta)
-    return (1.0/(1.0+np.exp(-fTheta(theta))))
+def sigmoideF(theta, x):
+    #print fTheta(theta, x)
+    return (1.0/(1.0+np.exp(-fTheta(theta, x))))
 
 def sigmoideThetaTransposeX(theta, x):
-    return sigmoide(x, theta, fTheta)
+    #return sigmoide(x, theta, fTheta)
+    return sigmoideF(theta, x)
 
 def pasT(pas):
     return 0.5/(0.5+pas)
 
 def nextTheta(theta, pas):
     global data
-    #print data.shape
-    #print target.shape
-    #print data.T.shape
-    #print theta.shape
+ 
     quartCal=np.dot(data, target - np.sum(np.dot(data.T, theta)))
     demiCal=(pasT(pas)/target.size)* quartCal
-    
+    print quartCal
     return theta + demiCal
 
 def erreurQuadra(theta):
@@ -72,25 +71,42 @@ def erreurQuadra(theta):
     print "Return de l'erreur quadratique"
     return (1.0 / data.size) * np.dot(alpha.T, alpha)
 
+def risqueEmpirique(theta):
+    global data
+    global target
+    N = data.size/2
+    Rn = 0.0
+    
+    print "Calcul du risque empirique"
+    for i in range(data.size):
+        logsigmoide = np.log( sigmoideThetaTransposeX(theta, data[i]))
+        logUnMoinsSigmoide = np.log( 1 - sigmoideThetaTransposeX(theta, data[i]))
+        Rn = Rn + (-target[i] * logsigmoide - (1 - target[i]) * logUnMoinsSigmoide)
+    Rn = Rn/N
+    return Rn
+        
+
 
 def descenteGrad(theta0):
     #global resGrad
     #global erreurQgrad
     #global resGradSto
     #global erreurQgradSto
+    global risqueEmpirique
 
     print "Descente de gradient"
     pas=1
     premier = theta0
     print "Calcul du premier theta suivant"
     second = nextTheta(premier, pas)
-    print "Calcul du cas d'arret"
+    
+    """print "Calcul du cas d'arret"
     print "Calcul de l'erreur quadra seconde"
     erreurQuadraSecond = erreurQuadra(second)
     print "Calcul de l'erreur quadra premiere"
     erreurQuadraPremiere = erreurQuadra(premier)
     arret = abs(erreurQuadraSecond - erreurQuadraPremiere)
-    print arret
+    print arret"""
     #resGrad = []
     #erreurQgrad= []
 
@@ -99,22 +115,17 @@ def descenteGrad(theta0):
     #resGrad.append(premier)
     #resGrad.append(second)
     
-    print "Minimisation de l'erreur quadratique"
-    while arret/10.0 < abs(erreurQuadra(second) - erreurQuadra(premier)):
+    print "Minimisation du risque empirique"
+    while risqueEmpirique(second)<risqueEmpirique(premier):
         
         pas = pas+1
-        print pas
         premier=second
         second=nextTheta(premier, pas)
-        #resGrad.append(second)
-        #erreurQgrad.append(erreurQuadra(second))
 
         print "pas"
         print pas
-        print "abs(arret)/1000.0: {0}".format(arret/100000.0)
-        #print "abs(Quadra(second) - Quadra(premier)): {0}".format(abs(erreurQuadra(second) - erreurQuadra(premier)))
-        print "erreurQuadra {0}".format(erreurQuadra(second))
-        return second
+        print "Risque Empirique {0}".format(risqueEmpirique(premier))
+    return second
 
 
 def defineY(x, tau, theta0):
