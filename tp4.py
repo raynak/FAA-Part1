@@ -29,8 +29,8 @@ def oracle(x):
 
 def fTheta(theta):
     global data
-
-    return np.dot(data.T, theta)
+    return np.dot(theta.T, data)
+    # return np.dot(data.T, theta)
 
 def sigmoide(t, A, b):
     return (1.0/(1.0+np.exp(-((A*t)+b))))
