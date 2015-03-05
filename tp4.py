@@ -27,12 +27,6 @@ def init():
     target = np.hstack((np.ones((1,Nf/2)),np.ones((1,Nh/2))*0)).T
 
 
-# function qui pour un x donne retourne la valeur y
-# x appartient au donnees
-def oracle(x):
-    global data
-    return data[0,x]
-
 def fTheta(theta):
     global data
     return np.dot(theta.T, data)
@@ -53,10 +47,10 @@ def pasT(pas):
 
 def nextTheta(theta, pas):
     global data
-    """print data.shape
-    print target.shape
-    print data.T.shape
-    print theta.shape"""
+    #print data.shape
+    #print target.shape
+    #print data.T.shape
+    #print theta.shape
     quartCal=np.dot(data, target - np.sum(np.dot(data.T, theta)))
     demiCal=(pasT(pas)/target.size)* quartCal
     
@@ -64,19 +58,26 @@ def nextTheta(theta, pas):
 
 def erreurQuadra(theta):
     global data
+    global target
+    
     print "npdot"
     npdot = np.dot(data.T, theta)
     print "alpha"
+
+    print target.shape
+    print npdot.shape
+    
     alpha = target - npdot
+    
     print "Return de l'erreur quadratique"
     return (1.0 / data.size) * np.dot(alpha.T, alpha)
 
 
 def descenteGrad(theta0):
-    global resGrad
-    global erreurQgrad
-    global resGradSto
-    global erreurQgradSto
+    #global resGrad
+    #global erreurQgrad
+    #global resGradSto
+    #global erreurQgradSto
 
     print "Descente de gradient"
     pas=1
@@ -90,23 +91,23 @@ def descenteGrad(theta0):
     erreurQuadraPremiere = erreurQuadra(premier)
     arret = abs(erreurQuadraSecond - erreurQuadraPremiere)
     print arret
-    resGrad = []
-    erreurQgrad= []
+    #resGrad = []
+    #erreurQgrad= []
 
-    erreurQgrad.append(erreurQuadra(premier))
-    erreurQgrad.append(erreurQuadra(second))
-    resGrad.append(premier)
-    resGrad.append(second)
+    #erreurQgrad.append(erreurQuadra(premier))
+    #erreurQgrad.append(erreurQuadra(second))
+    #resGrad.append(premier)
+    #resGrad.append(second)
     
     print "Minimisation de l'erreur quadratique"
-    while arret/10000.0 < abs(erreurQuadra(second) - erreurQuadra(premier)):
+    while arret/10.0 < abs(erreurQuadra(second) - erreurQuadra(premier)):
         
         pas = pas+1
         print pas
         premier=second
         second=nextTheta(premier, pas)
-        resGrad.append(second)
-        erreurQgrad.append(erreurQuadra(second))
+        #resGrad.append(second)
+        #erreurQgrad.append(erreurQuadra(second))
 
         print "pas"
         print pas
@@ -127,6 +128,7 @@ if __name__ == '__main__':
     global data
     global Pfemme
     global Phomme
+    global target
 
    # taille = sys.argv[1:]
    #poids = sys.arg[2:]
